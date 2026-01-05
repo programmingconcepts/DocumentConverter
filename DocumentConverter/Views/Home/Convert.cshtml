@@ -1,0 +1,50 @@
+﻿@model DocumentConverter.Models.FileConversionModel
+
+@{
+    ViewData["Title"] = "Convert";
+}
+
+@{
+    ViewData["Title"] = "Document Converter";
+}
+
+<h2 class="mb-3">Document Converter</h2>
+
+<form asp-action="Convert"
+      asp-controller="Home"
+      method="post"
+      enctype="multipart/form-data">
+
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="File" class="form-label">Select File</label>
+        <input asp-for="File" type="file" class="form-control" />
+        <span asp-validation-for="File" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ConversionType" class="form-label">Conversion Type</label>
+        <select asp-for="ConversionType"
+                class="form-select"
+                asp-items="Html.GetEnumSelectList<ConversionType>()">
+            <option value="">-- Select --</option>
+        </select>
+        <span asp-validation-for="ConversionType" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Convert
+    </button>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger mt-3">
+            @Html.ValidationSummary(false)
+        </div>
+    }
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
